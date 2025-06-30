@@ -1,4 +1,4 @@
-package com.summoner.lolhaeduo.client.dto;
+package com.summoner.lolhaeduo.client.dto.api;
 
 import lombok.Getter;
 

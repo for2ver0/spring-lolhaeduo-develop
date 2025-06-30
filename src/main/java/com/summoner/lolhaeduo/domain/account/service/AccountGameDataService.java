@@ -1,7 +1,7 @@
 package com.summoner.lolhaeduo.domain.account.service;
 
-import com.summoner.lolhaeduo.client.dto.MatchStats;
-import com.summoner.lolhaeduo.client.dto.RankStats;
+import com.summoner.lolhaeduo.domain.account.dto.game.MatchStats;
+import com.summoner.lolhaeduo.domain.account.dto.game.RankStats;
 import com.summoner.lolhaeduo.common.event.AccountGameDataEvent;
 import com.summoner.lolhaeduo.domain.account.entity.Account;
 import com.summoner.lolhaeduo.domain.account.entity.AccountGameData;

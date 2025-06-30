@@ -1,4 +1,4 @@
-package com.summoner.lolhaeduo.client.dto;
+package com.summoner.lolhaeduo.domain.account.dto.game;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
