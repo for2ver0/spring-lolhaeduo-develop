@@ -1,7 +1,7 @@
 package com.summoner.lolhaeduo.domain.duo.service;
 
-import com.summoner.lolhaeduo.client.entity.Favorite;
-import com.summoner.lolhaeduo.client.repository.FavoriteRepository;
+import com.summoner.lolhaeduo.domain.account.entity.Favorite;
+import com.summoner.lolhaeduo.domain.account.repository.FavoriteRepository;
 import com.summoner.lolhaeduo.common.dto.AuthMember;
 import com.summoner.lolhaeduo.common.dto.PageResponse;
 import com.summoner.lolhaeduo.domain.account.entity.Account;

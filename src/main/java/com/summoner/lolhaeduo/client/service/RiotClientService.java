@@ -1,8 +1,8 @@
 package com.summoner.lolhaeduo.client.service;
 
 import com.summoner.lolhaeduo.client.dto.*;
-import com.summoner.lolhaeduo.client.entity.Favorite;
-import com.summoner.lolhaeduo.client.repository.FavoriteRepository;
+import com.summoner.lolhaeduo.domain.account.entity.Favorite;
+import com.summoner.lolhaeduo.domain.account.repository.FavoriteRepository;
 import com.summoner.lolhaeduo.domain.gamedata.repository.VersionRepository;
 import com.summoner.lolhaeduo.client.riot.RiotClient;
 import com.summoner.lolhaeduo.common.util.TimeUtil;
