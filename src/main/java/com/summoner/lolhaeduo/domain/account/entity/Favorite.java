@@ -1,4 +1,4 @@
-package com.summoner.lolhaeduo.client.entity;
+package com.summoner.lolhaeduo.domain.account.entity;
 
 import com.summoner.lolhaeduo.domain.duo.enums.QueueType;
 import jakarta.persistence.*;
