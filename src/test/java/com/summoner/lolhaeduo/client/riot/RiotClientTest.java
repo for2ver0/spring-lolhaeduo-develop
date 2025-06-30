@@ -1,9 +1,9 @@
 //package com.summoner.lolhaeduo.client.riot;
 //
-//import com.summoner.lolhaeduo.client.dto.FormattedMatchResponse;
-//import com.summoner.lolhaeduo.client.dto.LeagueEntryResponse;
-//import com.summoner.lolhaeduo.client.dto.PuuidResponse;
-//import com.summoner.lolhaeduo.client.dto.SummonerResponse;
+//import com.summoner.lolhaeduo.domain.account.dto.game.FormattedMatchResponse;
+//import com.summoner.lolhaeduo.client.dto.api.LeagueEntryResponse;
+//import com.summoner.lolhaeduo.client.dto.api.PuuidResponse;
+//import com.summoner.lolhaeduo.client.dto.api.SummonerResponse;
 //import com.summoner.lolhaeduo.domain.account.enums.AccountRegion;
 //import com.summoner.lolhaeduo.domain.account.enums.AccountServer;
 //import org.junit.jupiter.api.Assertions;
