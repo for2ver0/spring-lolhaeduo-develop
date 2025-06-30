@@ -9,7 +9,7 @@ import com.summoner.lolhaeduo.domain.account.dto.game.RankStats;
 import com.summoner.lolhaeduo.domain.account.entity.Favorite;
 import com.summoner.lolhaeduo.domain.account.repository.FavoriteRepository;
 import com.summoner.lolhaeduo.domain.gamedata.repository.VersionRepository;
-import com.summoner.lolhaeduo.client.riot.RiotClient;
+import com.summoner.lolhaeduo.client.riot.RiotApiClient;
 import com.summoner.lolhaeduo.common.util.TimeUtil;
 import com.summoner.lolhaeduo.domain.account.dto.LinkAccountRequest;
 import com.summoner.lolhaeduo.domain.account.entity.Account;
@@ -36,7 +36,7 @@ import static com.summoner.lolhaeduo.domain.duo.enums.QueueType.*;
 @RequiredArgsConstructor
 public class RiotGameDataService {
 
-    private final RiotClient riotClient;
+    private final RiotApiClient riotApiClient;
     private final TimeUtil timeUtil;
     private final VersionRepository versionRepository;
     private final FavoriteRepository favoriteRepository;
@@ -46,13 +46,13 @@ public class RiotGameDataService {
     private static final int MAX_METHOD_CALL = 100;
 
     public AccountDetail createAccountDetail(LinkAccountRequest request) {
-        PuuidResponse puuidResponse = riotClient.extractPuuid(
+        PuuidResponse puuidResponse = riotApiClient.extractPuuid(
                 request.getSummonerName(),
                 request.getTagLine(),
                 request.getServer().getRegion()
         );
 
-        SummonerResponse summonerResponse = riotClient.extractSummonerInfo(
+        SummonerResponse summonerResponse = riotApiClient.extractSummonerInfo(
                 puuidResponse.getPuuid(),
                 request.getServer()
         );
@@ -65,7 +65,7 @@ public class RiotGameDataService {
     }
 
     public String updateProfileIconUrl(Account account) {
-        SummonerResponse response = riotClient.extractSummonerInfo(account.getAccountDetail().getPuuid(), account.getServer());
+        SummonerResponse response = riotApiClient.extractSummonerInfo(account.getAccountDetail().getPuuid(), account.getServer());
         int accountProfileIconId = response.getProfileIconId();
 
         String latestVersion = versionRepository.findLatestVersion().getVersionNumber();
@@ -77,7 +77,7 @@ public class RiotGameDataService {
     }
 
     public RankStats getRankGameStats(String summonerId, AccountServer server) {
-        List<LeagueEntryResponse> leagueInfoList = riotClient.extractLeagueInfo(summonerId, server);
+        List<LeagueEntryResponse> leagueInfoList = riotApiClient.extractLeagueInfo(summonerId, server);
 
         int soloTotalGames = 0, flexTotalGames = 0;
         int soloWins = 0, soloLosses = 0;
@@ -124,7 +124,7 @@ public class RiotGameDataService {
         if (queueType == QUICK) {
             int start = 0;
             while (true) {
-                List<String> partialMatchIds = riotClient.extractMatchIds(null, null, QUICK.getQueueId(), null, start, 100, region, puuid);
+                List<String> partialMatchIds = riotApiClient.extractMatchIds(null, null, QUICK.getQueueId(), null, start, 100, region, puuid);
                 if (partialMatchIds == null || partialMatchIds.isEmpty()) {
                     break;
                 }
@@ -137,7 +137,7 @@ public class RiotGameDataService {
             // 랭크 게임의 경우 playCount에 따라 100판 단위로 API 호출
             while (totalRetrieved < playCount) {
                 int count = Math.min(MAX_METHOD_CALL, playCount - totalRetrieved);
-                List<String> partialMatchIds = riotClient.extractMatchIds(
+                List<String> partialMatchIds = riotApiClient.extractMatchIds(
                         null, null,
                         queueType == SOLO ? SOLO.getQueueId() : FLEX.getQueueId(),
 
@@ -166,7 +166,7 @@ public class RiotGameDataService {
     // 따라서 RiotClient의 getmatchIds를 한번만 호출해도 필요한 모든 정보를 다 조회할 수 있다고 생각해서, 1번만 호출하게 되었습니다.
     public List<String> updateMatchIds(QueueType queueType, LocalDateTime lastUpdatedAt, AccountRegion region, String puuid) {
         long startTime = timeUtil.convertToEpochSeconds(lastUpdatedAt);
-        return riotClient.extractMatchIds(
+        return riotApiClient.extractMatchIds(
                 startTime, null,
                 queueType.getQueueId(),
                 null, 0, 100, region, puuid
@@ -188,7 +188,7 @@ public class RiotGameDataService {
                 String threadName = Thread.currentThread().getName();
                 log.info("Thread ID: {}, Name: {} is processing matchId: {}", threadId, threadName, matchId);
 
-                FormattedMatchResponse matchResponse = riotClient.getMatchDetails(matchId, summonerName, tagLine, region);
+                FormattedMatchResponse matchResponse = riotApiClient.getMatchDetails(matchId, summonerName, tagLine, region);
                 if (matchResponse != null) {
                     return new FormattedMatchResponse(
                             matchResponse.getChampionName(),

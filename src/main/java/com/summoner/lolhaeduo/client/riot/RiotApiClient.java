@@ -27,7 +27,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class RiotClient {
+public class RiotApiClient {
 
     private final RestTemplate restTemplate;
     private final MeterRegistry meterRegistry;
@@ -41,7 +41,7 @@ public class RiotClient {
     @Value("${riot.api.key}")
     private String apiKey;
 
-    public RiotClient(RestTemplate restTemplate, MeterRegistry meterRegistry) {
+    public RiotApiClient(RestTemplate restTemplate, MeterRegistry meterRegistry) {
         this.restTemplate = restTemplate;
         this.meterRegistry = meterRegistry;
 
