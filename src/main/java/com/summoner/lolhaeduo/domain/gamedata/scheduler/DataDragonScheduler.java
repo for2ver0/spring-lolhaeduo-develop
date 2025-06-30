@@ -1,4 +1,4 @@
-package com.summoner.lolhaeduo.client.riot;
+package com.summoner.lolhaeduo.domain.gamedata.scheduler;
 
 import com.summoner.lolhaeduo.domain.gamedata.entity.Champion;
 import com.summoner.lolhaeduo.domain.gamedata.entity.ProfileIcon;

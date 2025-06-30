@@ -1,6 +1,6 @@
 package com.summoner.lolhaeduo.client.controller;
 
-import com.summoner.lolhaeduo.client.riot.DataDragonScheduler;
+import com.summoner.lolhaeduo.domain.gamedata.scheduler.DataDragonScheduler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
