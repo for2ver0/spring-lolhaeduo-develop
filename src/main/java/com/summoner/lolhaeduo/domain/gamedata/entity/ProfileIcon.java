@@ -1,4 +1,4 @@
-package com.summoner.lolhaeduo.client.entity;
+package com.summoner.lolhaeduo.domain.gamedata.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

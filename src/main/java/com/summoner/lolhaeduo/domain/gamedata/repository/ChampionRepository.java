@@ -1,7 +1,6 @@
-package com.summoner.lolhaeduo.client.repository;
+package com.summoner.lolhaeduo.domain.gamedata.repository;
 
-import com.summoner.lolhaeduo.client.entity.Champion;
-import com.summoner.lolhaeduo.client.entity.Version;
+import com.summoner.lolhaeduo.domain.gamedata.entity.Champion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

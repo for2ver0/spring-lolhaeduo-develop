@@ -1,11 +1,11 @@
 package com.summoner.lolhaeduo.client.riot;
 
-import com.summoner.lolhaeduo.client.entity.Champion;
-import com.summoner.lolhaeduo.client.entity.ProfileIcon;
-import com.summoner.lolhaeduo.client.entity.Version;
-import com.summoner.lolhaeduo.client.repository.ChampionRepository;
-import com.summoner.lolhaeduo.client.repository.ProfileIconRepository;
-import com.summoner.lolhaeduo.client.repository.VersionRepository;
+import com.summoner.lolhaeduo.domain.gamedata.entity.Champion;
+import com.summoner.lolhaeduo.domain.gamedata.entity.ProfileIcon;
+import com.summoner.lolhaeduo.domain.gamedata.entity.Version;
+import com.summoner.lolhaeduo.domain.gamedata.repository.ChampionRepository;
+import com.summoner.lolhaeduo.domain.gamedata.repository.ProfileIconRepository;
+import com.summoner.lolhaeduo.domain.gamedata.repository.VersionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
