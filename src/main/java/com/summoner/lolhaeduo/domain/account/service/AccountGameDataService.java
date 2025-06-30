@@ -2,7 +2,6 @@ package com.summoner.lolhaeduo.domain.account.service;
 
 import com.summoner.lolhaeduo.client.dto.MatchStats;
 import com.summoner.lolhaeduo.client.dto.RankStats;
-import com.summoner.lolhaeduo.client.service.RiotClientService;
 import com.summoner.lolhaeduo.common.event.AccountGameDataEvent;
 import com.summoner.lolhaeduo.domain.account.entity.Account;
 import com.summoner.lolhaeduo.domain.account.entity.AccountGameData;
@@ -32,7 +31,7 @@ import static com.summoner.lolhaeduo.domain.duo.enums.QueueType.*;
 @RequiredArgsConstructor
 public class AccountGameDataService {
 
-    private final RiotClientService riotClientService;
+    private final RiotGameDataService riotGameDataService;
     private final AccountGameDataRepository accountGameDataRepository;
     private final QuickGameDataRepository quickGameDataRepository;
     private final SoloRankDataRepository soloRankDataRepository;
@@ -49,17 +48,17 @@ public class AccountGameDataService {
         long startTime = System.currentTimeMillis();
 
         // 랭크 정보 가져오기
-        RankStats rankStats = riotClientService.getRankGameStats(account.getAccountDetail().getEncryptedSummonerId(), account.getServer());
+        RankStats rankStats = riotGameDataService.getRankGameStats(account.getAccountDetail().getEncryptedSummonerId(), account.getServer());
 
         // 매치 아이디 가져오기
         // 빠른 대전의 경우 플레이한 매치 수 정보를 사용하지 않는다.
-        List<String> quickMatchIds = riotClientService.getMatchIds(QUICK, 0, account.getRegion(), account.getAccountDetail().getPuuid());
-        List<String> soloMatchIds = riotClientService.getMatchIds(SOLO, rankStats.getSoloTotalGames(), account.getRegion(), account.getAccountDetail().getPuuid());
-        List<String> flexMatchIds = riotClientService.getMatchIds(FLEX, rankStats.getFlexTotalGames(), account.getRegion(), account.getAccountDetail().getPuuid());
+        List<String> quickMatchIds = riotGameDataService.getMatchIds(QUICK, 0, account.getRegion(), account.getAccountDetail().getPuuid());
+        List<String> soloMatchIds = riotGameDataService.getMatchIds(SOLO, rankStats.getSoloTotalGames(), account.getRegion(), account.getAccountDetail().getPuuid());
+        List<String> flexMatchIds = riotGameDataService.getMatchIds(FLEX, rankStats.getFlexTotalGames(), account.getRegion(), account.getAccountDetail().getPuuid());
 
         QuickGameData quickGameData = null;
         if (!quickMatchIds.isEmpty()) {
-            MatchStats quickStats = riotClientService.getMatchStats(account.getId(), quickMatchIds, QUICK, account.getSummonerName(), account.getTagLine(), account.getRegion());
+            MatchStats quickStats = riotGameDataService.getMatchStats(account.getId(), quickMatchIds, QUICK, account.getSummonerName(), account.getTagLine(), account.getRegion());
             quickGameData = QuickGameData.of(
                     quickStats.getWins(), quickStats.getTotalGames(),
                     Kda.of(quickStats.getAverageKill(), quickStats.getAverageAssist(), quickStats.getAverageDeath())
@@ -70,7 +69,7 @@ public class AccountGameDataService {
 
         SoloRankData soloRankData = null;
         if (!soloMatchIds.isEmpty()) {
-            MatchStats soloStats = riotClientService.getMatchStats(account.getId(), soloMatchIds, SOLO, account.getSummonerName(), account.getTagLine(), account.getRegion());
+            MatchStats soloStats = riotGameDataService.getMatchStats(account.getId(), soloMatchIds, SOLO, account.getSummonerName(), account.getTagLine(), account.getRegion());
             soloRankData = SoloRankData.of(
                     rankStats.getSoloTier(), rankStats.getSoloRank(),
                     soloStats.getWins(), soloStats.getTotalGames(),
@@ -82,7 +81,7 @@ public class AccountGameDataService {
 
         FlexRankData flexRankData = null;
         if (!flexMatchIds.isEmpty()) {
-            MatchStats flexStats = riotClientService.getMatchStats(account.getId(), flexMatchIds, FLEX, account.getSummonerName(), account.getTagLine(), account.getRegion());
+            MatchStats flexStats = riotGameDataService.getMatchStats(account.getId(), flexMatchIds, FLEX, account.getSummonerName(), account.getTagLine(), account.getRegion());
             flexRankData = FlexRankData.of(
                     rankStats.getFlexTier(), rankStats.getFlexRank(),
                     flexStats.getWins(), flexStats.getTotalGames(),
@@ -93,7 +92,7 @@ public class AccountGameDataService {
         }
 
         // 각각 데이터 객체 생성
-        String iconUrl = riotClientService.updateProfileIconUrl(account);
+        String iconUrl = riotGameDataService.updateProfileIconUrl(account);
 
         AccountGameData newAccountGameData = AccountGameData.of(iconUrl, quickGameData, soloRankData, flexRankData);
         long endTime = System.currentTimeMillis();
@@ -116,17 +115,17 @@ public class AccountGameDataService {
         LocalDateTime modifiedAt = recentData.getModifiedAt();
 
         // 3. 프로필 아이콘을 업데이트한다.
-        String updatedProfileIconUrl = riotClientService.updateProfileIconUrl(account);
+        String updatedProfileIconUrl = riotGameDataService.updateProfileIconUrl(account);
 
         // 4. 반영해야할 매치 ID가 있는지 조회한다.
-        RankStats rankStats = riotClientService.getRankGameStats(account.getAccountDetail().getEncryptedSummonerId(), account.getServer());
+        RankStats rankStats = riotGameDataService.getRankGameStats(account.getAccountDetail().getEncryptedSummonerId(), account.getServer());
 
-        List<String> quickMatchIds = riotClientService.updateMatchIds(QUICK, modifiedAt, account.getRegion(), account.getAccountDetail().getPuuid());
-        List<String> soloMatchIds = riotClientService.updateMatchIds(SOLO, modifiedAt, account.getRegion(), account.getAccountDetail().getPuuid());
-        List<String> flexMatchIds = riotClientService.updateMatchIds(FLEX, modifiedAt, account.getRegion(), account.getAccountDetail().getPuuid());
+        List<String> quickMatchIds = riotGameDataService.updateMatchIds(QUICK, modifiedAt, account.getRegion(), account.getAccountDetail().getPuuid());
+        List<String> soloMatchIds = riotGameDataService.updateMatchIds(SOLO, modifiedAt, account.getRegion(), account.getAccountDetail().getPuuid());
+        List<String> flexMatchIds = riotGameDataService.updateMatchIds(FLEX, modifiedAt, account.getRegion(), account.getAccountDetail().getPuuid());
 
         if (!quickMatchIds.isEmpty()) {
-            MatchStats quickStats = riotClientService.getMatchStats(account.getId(), quickMatchIds, QUICK, account.getSummonerName(), account.getTagLine(), account.getRegion());
+            MatchStats quickStats = riotGameDataService.getMatchStats(account.getId(), quickMatchIds, QUICK, account.getSummonerName(), account.getTagLine(), account.getRegion());
             quickGameData.update(
                     quickStats.getWins(), quickStats.getTotalGames(),
                     Kda.of(quickStats.getAverageKill(), quickStats.getAverageAssist(), quickStats.getAverageDeath())
@@ -134,7 +133,7 @@ public class AccountGameDataService {
         }
 
         if (!soloMatchIds.isEmpty()) {
-            MatchStats soloStats = riotClientService.getMatchStats(account.getId(), soloMatchIds, SOLO, account.getSummonerName(), account.getTagLine(), account.getRegion());
+            MatchStats soloStats = riotGameDataService.getMatchStats(account.getId(), soloMatchIds, SOLO, account.getSummonerName(), account.getTagLine(), account.getRegion());
             soloRankData.update(
                     rankStats.getSoloTier(), rankStats.getSoloRank(),
                     soloRankData.getWins() + soloStats.getWins(),
@@ -144,7 +143,7 @@ public class AccountGameDataService {
         }
 
         if (!flexMatchIds.isEmpty()) {
-            MatchStats flexStats = riotClientService.getMatchStats(account.getId(), flexMatchIds, FLEX, account.getSummonerName(), account.getTagLine(), account.getRegion());
+            MatchStats flexStats = riotGameDataService.getMatchStats(account.getId(), flexMatchIds, FLEX, account.getSummonerName(), account.getTagLine(), account.getRegion());
             flexRankData.update(
                     rankStats.getFlexTier(), rankStats.getFlexRank(),
                     flexRankData.getWins() + flexStats.getWins(),

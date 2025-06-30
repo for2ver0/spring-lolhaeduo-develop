@@ -1,4 +1,4 @@
-package com.summoner.lolhaeduo.client.service;
+package com.summoner.lolhaeduo.domain.account.service;
 
 import com.summoner.lolhaeduo.client.dto.*;
 import com.summoner.lolhaeduo.domain.account.entity.Favorite;
@@ -29,7 +29,7 @@ import static com.summoner.lolhaeduo.domain.duo.enums.QueueType.*;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RiotClientService {
+public class RiotGameDataService {
 
     private final RiotClient riotClient;
     private final TimeUtil timeUtil;
