@@ -13,6 +13,7 @@ import com.summoner.lolhaeduo.domain.account.repository.AccountRepository;
 import com.summoner.lolhaeduo.domain.account.repository.dataStorage.FlexRankDataRepository;
 import com.summoner.lolhaeduo.domain.account.repository.dataStorage.QuickGameDataRepository;
 import com.summoner.lolhaeduo.domain.account.repository.dataStorage.SoloRankDataRepository;
+import com.summoner.lolhaeduo.domain.account.service.riot.RiotGameDataService;
 import com.summoner.lolhaeduo.domain.duo.entity.Kda;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
