@@ -1,4 +1,4 @@
-package com.summoner.lolhaeduo.domain.account.service;
+package com.summoner.lolhaeduo.domain.account.service.riot;
 
 import com.summoner.lolhaeduo.client.dto.api.LeagueEntryResponse;
 import com.summoner.lolhaeduo.client.dto.api.PuuidResponse;

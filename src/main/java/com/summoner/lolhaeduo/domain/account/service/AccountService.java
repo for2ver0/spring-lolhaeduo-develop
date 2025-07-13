@@ -6,6 +6,7 @@ import com.summoner.lolhaeduo.domain.account.dto.LinkAccountResponse;
 import com.summoner.lolhaeduo.domain.account.entity.Account;
 import com.summoner.lolhaeduo.domain.account.entity.AccountDetail;
 import com.summoner.lolhaeduo.domain.account.repository.AccountRepository;
+import com.summoner.lolhaeduo.domain.account.service.riot.RiotGameDataService;
 import com.summoner.lolhaeduo.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
