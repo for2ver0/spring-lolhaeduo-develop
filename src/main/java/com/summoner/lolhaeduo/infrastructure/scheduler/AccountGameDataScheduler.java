@@ -1,4 +1,4 @@
-package com.summoner.lolhaeduo.domain.account.scheduler;
+package com.summoner.lolhaeduo.infrastructure.scheduler;
 
 import com.summoner.lolhaeduo.domain.account.entity.Account;
 import com.summoner.lolhaeduo.domain.account.repository.AccountRepository;
